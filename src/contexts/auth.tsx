@@ -2,9 +2,10 @@ import React, { createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSessions from 'expo-auth-session';
 
+import { GITHUB_CLIENT_ID } from '@env';
+
 import { api } from '../services/api';
 
-const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const SCOPE = 'read:user';
 const USER_STORAGE = '@dowhile:user';
 const TOKEN_STORAGE = '@dowhile:token';
@@ -47,7 +48,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
 
   async function signIn() {
-    const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=${SCOPE}`;
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${SCOPE}`;
+
     const authSessionResponse = await AuthSessions.startAsync({ authUrl }) as AuthorizationResponse;
     
     if(
